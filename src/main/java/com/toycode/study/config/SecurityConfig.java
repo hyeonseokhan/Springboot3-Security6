@@ -23,6 +23,8 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final String ERROR_PAGE_URL = "/error";
+
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final AccessDeniedHandler accessDeniedHandler;
     private final AuthenticationProvider authenticationProvider;
@@ -37,6 +39,7 @@ public class SecurityConfig {
             .csrf().disable()
 
             .exceptionHandling()
+            .accessDeniedPage(ERROR_PAGE_URL)
             .authenticationEntryPoint(authenticationEntryPoint)
             .accessDeniedHandler(accessDeniedHandler)
 
@@ -45,6 +48,7 @@ public class SecurityConfig {
 
 //            .requestMatchers("/api/v1/demo/**").permitAll()
             .requestMatchers("/api/v1/auth/**").permitAll()
+            .requestMatchers(ERROR_PAGE_URL).permitAll()
 
             .anyRequest()
             .authenticated()

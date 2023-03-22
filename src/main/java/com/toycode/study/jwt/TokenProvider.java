@@ -52,7 +52,8 @@ public class TokenProvider implements InitializingBean {
             .setClaims(extraClaims)
             .signWith(key, SignatureAlgorithm.HS512)
             .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + this.tokenValidityInMilliseconds))
+            .setExpiration(
+                new Date(System.currentTimeMillis() + (this.tokenValidityInMilliseconds * 1000)))
             .compact();
     }
 

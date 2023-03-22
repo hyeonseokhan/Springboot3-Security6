@@ -31,7 +31,8 @@ public class User implements UserDetails {
     private String username;
     private String nickname;
     private String password;
-    private boolean activated;
+    @Builder.Default
+    private boolean activated = true;
 
     @Enumerated(EnumType.STRING)
     private Role role;
