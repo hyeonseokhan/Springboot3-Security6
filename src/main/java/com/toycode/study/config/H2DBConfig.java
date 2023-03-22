@@ -1,9 +1,8 @@
 package com.toycode.study.config;
 
-import org.h2.tools.Server;
-
 import java.sql.SQLException;
 import javax.sql.DataSource;
+import org.h2.tools.Server;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
