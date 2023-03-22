@@ -7,16 +7,18 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TokenProvider implements InitializingBean {
+
+    private static final String AUTHORITIES_KEY = "auth";
 
     @Value("${jwt.secret}")
     private String secret;
@@ -42,19 +44,22 @@ public class TokenProvider implements InitializingBean {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        return
+            Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                .claim(AUTHORITIES_KEY, getAuthorities(userDetails))
+                .signWith(key, SignatureAlgorithm.HS512)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(
+                    new Date(
+                        System.currentTimeMillis() + (this.tokenValidityInMilliseconds * 1000)))
+                .compact();
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        return Jwts
-            .builder()
-            .setSubject(userDetails.getUsername())
-            .setClaims(extraClaims)
-            .signWith(key, SignatureAlgorithm.HS512)
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(
-                new Date(System.currentTimeMillis() + (this.tokenValidityInMilliseconds * 1000)))
-            .compact();
+    private String getAuthorities(UserDetails userDetails) {
+        return userDetails.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.joining(","));
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -71,11 +76,10 @@ public class TokenProvider implements InitializingBean {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts
-            .parserBuilder()
-            .setSigningKey(key)
-            .build()
-            .parseClaimsJws(token)
-            .getBody();
+        return
+            Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token).getBody();
     }
 }
