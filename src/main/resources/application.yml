@@ -42,10 +42,17 @@ springdoc:
   swagger-ui:
     operations-sorter: alpha
     tags-sorter: alpha
-    path: /api
+    path: /swagger-ui
     disable-swagger-default-url: true
     doc-expansion: none
   default-consumes-media-type: application/json
+  properties:
+    title: Springboot 2.6.2 with Spring Security 5.6.1
+    version: 2.6.2
+    description: 스프링부트와 시큐리티를 학습하기 위한 프로젝트입니다.
+    name: toycode
+    email: toycode727@gmail.com
+    url: https://hyeonseokhan.github.io/resume/
 
 app:
   security:
@@ -57,7 +64,7 @@ app:
       api-paths:
         - /api/v1/auth/**
         - /api/v1/demo/get
-        - /swagger-ui/**
+        - /swagger-ui
         - /v*/api-docs/**
         - /swagger-resources/**
     jwt:
