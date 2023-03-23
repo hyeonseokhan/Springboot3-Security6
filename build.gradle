@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.toycode'
-version = '1.0.0-SNAPSHOT'
+version = '3.0.4'
 sourceCompatibility = '17'
 
 configurations {
@@ -28,6 +28,9 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok'
     implementation 'com.h2database:h2'
+
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4'
 
     // JWT
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'

@@ -31,9 +31,7 @@ spring:
 
 logging:
   level:
-    org:
-      springframework:
-        security: debug
+    org.springframework.security: debug
     com.toycode: debug
 
 springdoc:
@@ -42,10 +40,17 @@ springdoc:
   swagger-ui:
     operations-sorter: alpha
     tags-sorter: alpha
-    path: /api
+    path: /swagger-ui
     disable-swagger-default-url: true
     doc-expansion: none
   default-consumes-media-type: application/json
+  properties:
+    title: Springboot 3.0.4 with Spring Security 6.0.2
+    version: 3.0.4
+    description: 스프링부트와 시큐리티를 학습하기 위한 프로젝트입니다.
+    name: toycode
+    email: toycode727@gmail.com
+    url: https://hyeonseokhan.github.io/resume/
 
 app:
   security:

@@ -1,4 +1,4 @@
-# Springboot 3.0.x Security 6.0.x JWT 학습
+# Springboot 3.0.4 Security 6.0.2 JWT 학습
 
 최신 버전의 Springboot와 Security를 사용하여 JWT를 활용한 인증 인가 템플릿을 학습하기 위한 프로젝트입니다.
 
