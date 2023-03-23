@@ -15,4 +15,9 @@ public class DemoController {
     public ResponseEntity<?> sayHello() {
         return ResponseEntity.ok("Hello");
     }
+
+    @GetMapping("get")
+    public ResponseEntity<?> test() {
+        return ResponseEntity.ok("Hello");
+    }
 }

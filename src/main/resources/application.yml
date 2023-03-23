@@ -18,10 +18,10 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-#      naming:
-#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-#        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
       ddl-auto: create-drop
+      #      naming:
+      #        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      #        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
     properties:
       hibernate:
         format_sql: true
@@ -36,7 +36,31 @@ logging:
         security: debug
     com.toycode: debug
 
-jwt:
-  header: Authorization
-  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
-  token-validity-in-seconds: 86400
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+    path: /api
+    disable-swagger-default-url: true
+    doc-expansion: none
+  default-consumes-media-type: application/json
+
+app:
+  security:
+    enabled: true
+    include:
+      api-paths:
+        - /api/v*/**
+    exclude:
+      api-paths:
+        - /api/v1/auth/**
+        - /api/v1/demo/get
+        - /swagger-ui/**
+        - /v*/api-docs/**
+        - /swagger-resources/**
+    jwt:
+      header: Authorization
+      secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+      token-validity-in-seconds: 86400

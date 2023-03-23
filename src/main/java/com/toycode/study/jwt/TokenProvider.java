@@ -7,6 +7,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.InitializingBean;
@@ -20,18 +21,21 @@ public class TokenProvider implements InitializingBean {
 
     private static final String AUTHORITIES_KEY = "auth";
 
-    @Value("${jwt.secret}")
+    @Value("${app.security.jwt.secret}")
     private String secret;
 
-    @Value("${jwt.token-validity-in-seconds}")
+    @Value("${app.security.jwt.token-validity-in-seconds}")
     private long tokenValidityInMilliseconds;
 
     private Key key;
 
     @Override
     public void afterPropertiesSet() {
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
-        key = Keys.hmacShaKeyFor(keyBytes);
+        Optional.ofNullable(secret)
+            .ifPresent(s -> {
+                byte[] keyBytes = Decoders.BASE64.decode(s);
+                key = Keys.hmacShaKeyFor(keyBytes);
+            });
     }
 
     public String extractUsername(String token) {
