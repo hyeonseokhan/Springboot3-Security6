@@ -53,6 +53,8 @@ springdoc:
     url: https://hyeonseokhan.github.io/resume/
 
 app:
+  api:
+    version: /api/v1
   security:
     enabled: true
     include:
