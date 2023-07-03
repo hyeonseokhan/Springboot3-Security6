@@ -1,6 +1,6 @@
 package com.toycode.study.security.application.port.in;
 
-import com.toycode.study.security.application.port.in.dto.UserDeleteRequest;
+import com.toycode.study.security.application.port.dto.UserDeleteRequest;
 
 public interface UserDeleteUseCase {
 

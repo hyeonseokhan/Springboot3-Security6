@@ -1,4 +1,4 @@
-package com.toycode.study.security.application.port.in.dto;
+package com.toycode.study.security.application.port.dto;
 
 import com.toycode.study.security.domain.Authority;
 import jakarta.validation.constraints.NotBlank;

@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
     prefix = H2DBConfig.CONDITION_PROPERTIY_PREFIX,
     name = "enabled",
     havingValue = "true")
-public class H2DBConfig {
+class H2DBConfig {
 
     public static final String CONDITION_PROPERTIY_PREFIX = "spring.h2.console";
     private static final String H2_PROPERTIES_PREFIX = "spring.datasource.hikari";

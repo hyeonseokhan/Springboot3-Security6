@@ -1,7 +1,7 @@
 package com.toycode.study.security.adapter.in.web;
 
+import com.toycode.study.security.application.port.dto.UserRegistrationRequest;
 import com.toycode.study.security.application.port.in.UserRegistrationUseCase;
-import com.toycode.study.security.application.port.in.dto.UserRegistrationRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("${app.api.version}" + UserController.DOMAIN)
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-class UserController extends AbstractController {
+class UserController {
 
     public static final String DOMAIN = "/user";
 
@@ -26,12 +26,12 @@ class UserController extends AbstractController {
      * 신규 사용자 등록
      *
      * @param request 사용자 등록 요청문
-     * @접근권한 '최고 관리자`
+     * @접근권한 '최고 관리자'
      */
     @PostMapping("/register")
     ResponseEntity<Void> register(
         @Valid @RequestBody final UserRegistrationRequest request) {
         userRegistrationUseCase.registerUser(request);
-        return createRespMsg();
+        return ResponseEntity.ok().build();
     }
 }

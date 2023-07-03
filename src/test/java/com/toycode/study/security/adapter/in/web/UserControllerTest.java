@@ -5,27 +5,25 @@ import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.toycode.study.security.application.port.dto.UserRegistrationRequest;
 import com.toycode.study.security.application.port.in.UserRegistrationUseCase;
-import com.toycode.study.security.application.port.in.dto.UserRegistrationRequest;
 import com.toycode.study.security.domain.Authority;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 @WebMvcTest(controllers = UserController.class)
-class UserControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
+class UserControllerTest extends AbstractControllerTest {
 
     @MockBean
     private UserRegistrationUseCase userRegistrationUseCase;
+
+    // TODO UserDeleteUseCase 작성해야함.
 
     @Value("${app.api.version}")
     private String DEFAULT_URL;
@@ -41,6 +39,7 @@ class UserControllerTest {
                 post(DEFAULT_URL + UserController.DOMAIN + "/register")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(body))
+            .andDo(MockMvcResultHandlers.print())
             .andExpect(status().isOk());
 
         then(userRegistrationUseCase).should()
@@ -67,6 +66,7 @@ class UserControllerTest {
                 post(DEFAULT_URL + UserController.DOMAIN + "/register")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(body))
+            .andDo(MockMvcResultHandlers.print())
             .andExpect(status().isBadRequest());
     }
 }

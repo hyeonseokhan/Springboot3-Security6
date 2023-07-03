@@ -1,6 +1,6 @@
 package com.toycode.study.security.application.port.in;
 
-import com.toycode.study.security.application.port.in.dto.UserRegistrationRequest;
+import com.toycode.study.security.application.port.dto.UserRegistrationRequest;
 
 public interface UserRegistrationUseCase {
 

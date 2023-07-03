@@ -11,7 +11,7 @@ class UserMapper {
         return UserJpaEntity.builder()
             .username(user.getUsername().getValue())
             .nickname(user.getNickname())
-            .password(user.getPassword())
+            .password(user.getPassword()) // NOTE 암호화된 패스워드 값이어야 한다.
             .authority(user.getAuthority())
             .build();
     }
@@ -20,7 +20,7 @@ class UserMapper {
         return new User(
             new Username(user.getUsername()),
             user.getNickname(),
-            user.getPassword(),
+            user.getPassword(), // NOTE 암호화된 패스워드를 반환한다.
             user.getAuthority()
         );
     }

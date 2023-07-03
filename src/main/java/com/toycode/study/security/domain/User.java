@@ -58,14 +58,15 @@ public class User
 
     /**
      * 사용자 패스워드가 포함되지 않은 생성자
-     * @param username 사용자 명
-     * @param nickname 사용자 닉네임
+     *
+     * @param username  사용자 명
+     * @param nickname  사용자 닉네임
      * @param authority 사용자 권한
      * @return 패스워드가 포함되지 않은 사용자 객체
      */
-    public static User withoutPassword(Username username, String nickname, Authority authority) {
-        return new User(username, nickname, null, authority);
-    }
+//    public static User withoutPassword(Username username, String nickname, Authority authority) {
+//        return new User(username, nickname, null, authority);
+//    }
 
     /**
      * 해당 객체(value object, VO)는 수정자(setter)가 없기 때문에 생성자를 통해 생성된 후 불변을 보장한다.

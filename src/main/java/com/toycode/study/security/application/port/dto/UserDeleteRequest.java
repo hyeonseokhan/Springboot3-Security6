@@ -1,6 +1,5 @@
-package com.toycode.study.security.application.port.in.dto;
+package com.toycode.study.security.application.port.dto;
 
-import com.toycode.study.security.domain.User;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -10,6 +9,6 @@ import lombok.Data;
 @Data
 public class UserDeleteRequest {
 
-    @NotBlank
-    private final User.Username username;
+    @NotBlank(message = "`username`을 입력해주세요.")
+    private final String username;
 }
