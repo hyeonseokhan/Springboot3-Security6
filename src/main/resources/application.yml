@@ -44,7 +44,7 @@ springdoc:
   properties:
     title: Springboot 3.0.4 with Spring Security 6.0.2
     version: 3.0.4
-    description: 스프링부트와 시큐리티를 학습하기 위한 프로젝트입니다.
+    description: 스프링부트와 시큐리티를 학습하기 위한 프로젝트입니다.(Hexagonal Architecture)
     name: toycode
     email: toycode727@gmail.com
     url: https://hyeonseokhan.github.io/resume/

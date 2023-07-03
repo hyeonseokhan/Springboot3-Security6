@@ -15,6 +15,7 @@ public class UserRegistrationRequest {
     @Pattern(
         regexp = "^[a-zA-Z0-9]{4,16}$",
         message = "`username`은 영문 대소문자와 숫자로만 이루어진 4~16자여야 합니다.")
+    @NotBlank(message = "`username`을 입력해주세요.")
     private final String username;
 
     @NotBlank(message = "`nickname`을 입력해주세요.")
