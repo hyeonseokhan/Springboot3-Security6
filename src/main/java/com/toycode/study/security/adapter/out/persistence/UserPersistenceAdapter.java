@@ -1,9 +1,7 @@
 package com.toycode.study.security.adapter.out.persistence;
 
-import com.toycode.study.security.application.port.out.UserDeletePort;
-import com.toycode.study.security.application.port.out.UserFindPort;
-import com.toycode.study.security.application.port.out.UserSavePort;
-import com.toycode.study.security.common.PersistenceAdapter;
+import com.toycode.study.security.application.port.out.UserPersistencePort;
+import com.toycode.study.security.common.annotation.PersistenceAdapter;
 import com.toycode.study.security.domain.User;
 import com.toycode.study.security.domain.User.Username;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +9,7 @@ import lombok.RequiredArgsConstructor;
 @PersistenceAdapter
 @RequiredArgsConstructor
 class UserPersistenceAdapter implements
-    UserSavePort,
-    UserFindPort,
-    UserDeletePort {
+    UserPersistencePort {
 
     private final UserRepository repository;
 

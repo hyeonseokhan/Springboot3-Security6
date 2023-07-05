@@ -9,18 +9,19 @@ class UserMapper {
 
     UserJpaEntity toJpaEntity(User user) {
         return UserJpaEntity.builder()
-            .username(user.getUsername().getValue())
+            .username(user.getUsername())
             .nickname(user.getNickname())
-            .password(user.getPassword()) // NOTE 암호화된 패스워드 값이어야 한다.
+            .password(user.getPassword()) // 암호화된 패스워드
             .authority(user.getAuthority())
+            .isEnabled(user.isEnabled())
             .build();
     }
 
     User toDomainEntity(UserJpaEntity user) {
         return new User(
-            new Username(user.getUsername()),
+            Username.of(user.getUsername()),
             user.getNickname(),
-            user.getPassword(), // NOTE 암호화된 패스워드를 반환한다.
+            user.getPassword(), // 암호화된 패스워드
             user.getAuthority()
         );
     }

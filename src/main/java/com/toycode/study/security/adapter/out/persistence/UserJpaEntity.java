@@ -1,7 +1,6 @@
 package com.toycode.study.security.adapter.out.persistence;
 
 import com.toycode.study.security.domain.Authority;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,9 +8,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,8 +43,4 @@ class UserJpaEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Authority authority;
-
-    // TODO 사용자 <-> 토큰의 관계는 누가 주체인가?
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<TokenJpaEntity> tokens;
 }

@@ -1,4 +1,4 @@
-package com.toycode.study.security.common;
+package com.toycode.study.security.common.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

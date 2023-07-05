@@ -5,17 +5,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "token")
 class TokenJpaEntity {
 
@@ -26,12 +27,11 @@ class TokenJpaEntity {
     @Column(nullable = false, unique = true)
     private String token;
 
+    @Column(nullable = false)
+    private String username;
+
     // NOTE 폐기 및 만료 필드 필요여부 확인
     private Boolean revoked = false;
 
     private Boolean expired = false;
-
-    @ManyToOne
-    @JoinColumn
-    private UserJpaEntity user;
 }

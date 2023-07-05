@@ -1,19 +1,17 @@
 package com.toycode.study.security.application.port.dto;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.toycode.study.security.domain.Token;
+import lombok.Value;
 
 /**
  * 발급된 토큰 정보객체
  */
-@Getter
-@Builder
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Value
 public class TokenInfo {
 
-    private String access_token;
+    String access_token;
+
+    public static TokenInfo of(Token token) {
+        return new TokenInfo(token.getValue());
+    }
 }
