@@ -2,6 +2,7 @@ package com.toycode.study.security.adapter.out.persistence;
 
 import com.toycode.study.security.domain.TestData;
 import com.toycode.study.security.domain.User;
+import com.toycode.study.security.domain.User.Username;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,14 +33,14 @@ class UserPersistenceAdapterTest {
     @Test
     @DisplayName("사용자 조회 테스트")
     void find_user() {
-        User domain = adapter.findByUsername(user.getUsername());
+        User domain = adapter.findByUsername(Username.of(user.getUsername()));
         Assertions.assertEquals(domain.getUsername(), user.getUsername());
     }
 
     @Test
     @DisplayName("사용자 삭제 테스트")
     void delete_user() {
-        adapter.deleteUser(user.getUsername());
+        adapter.deleteUser(Username.of(user.getUsername()));
         Assertions.assertEquals(0, repository.count());
     }
 }

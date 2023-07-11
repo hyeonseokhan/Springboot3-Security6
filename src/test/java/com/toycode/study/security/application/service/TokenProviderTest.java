@@ -1,7 +1,7 @@
 package com.toycode.study.security.application.service;
 
 import com.toycode.study.security.domain.Authority;
-import com.toycode.study.security.domain.TokenBak;
+import com.toycode.study.security.domain.TokenInfo;
 import com.toycode.study.security.domain.User;
 import com.toycode.study.security.domain.User.Username;
 import org.junit.jupiter.api.Assertions;
@@ -28,10 +28,10 @@ class TokenProviderTest {
             Authority.MANAGER);
 
         // When
-        TokenBak token = tokenProvider.createToken(user);
+        TokenInfo token = tokenProvider.createToken(user);
 
         // Then
-        Assertions.assertNotNull(token.getValue());
-        System.out.printf("==> JWT: %s", token);
+        Assertions.assertNotNull(token.getToken().getValue());
+        System.out.printf("==> JWT: %s", token.getToken().getValue());
     }
 }
