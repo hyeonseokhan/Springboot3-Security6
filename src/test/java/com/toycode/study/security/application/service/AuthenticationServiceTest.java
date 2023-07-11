@@ -13,7 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 class AuthenticationServiceTest {
 
     @InjectMocks
-    private AuthenticationService authenticationService;
+    private LoginService authenticationService;
 
     @Mock
     private AuthenticationManager authenticationManager;

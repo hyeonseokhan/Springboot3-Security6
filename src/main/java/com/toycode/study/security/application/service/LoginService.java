@@ -1,7 +1,7 @@
 package com.toycode.study.security.application.service;
 
 import com.toycode.study.security.application.port.dto.LoginRequest;
-import com.toycode.study.security.application.port.dto.TokenInfo;
+import com.toycode.study.security.application.port.dto.LoginResponse;
 import com.toycode.study.security.application.port.in.LoginUseCase;
 import com.toycode.study.security.application.port.in.TokenDeleteUseCase;
 import com.toycode.study.security.application.port.in.TokenGenerationUseCase;
@@ -15,7 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 
 @UseCase
 @RequiredArgsConstructor
-public class AuthenticationService implements
+public class LoginService implements
     LoginUseCase {
 
     /**
@@ -32,15 +32,14 @@ public class AuthenticationService implements
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public TokenInfo login(LoginRequest request) {
-        // NOTE 아래의 코드 기능 학습필요.
+    public LoginResponse login(LoginRequest request) {
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
         User user = userPersistencePort.findByUsername(Username.of(request.getUsername()));
 
-        tokenDeleteUseCase.deleteIssuedTokenOfUser(user);
+        tokenDeleteUseCase.revokeIssuedTokenOfUser(user);
 
-        return TokenInfo.of(tokenGenerationUseCase.createToken(user));
+        return LoginResponse.of(tokenGenerationUseCase.createToken(user));
     }
 }

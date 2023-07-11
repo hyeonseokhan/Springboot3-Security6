@@ -3,6 +3,7 @@ package com.toycode.study.security.application.service;
 import com.toycode.study.security.application.port.dto.UserDeleteRequest;
 import com.toycode.study.security.application.port.dto.UserRegistrationRequest;
 import com.toycode.study.security.application.port.in.UserDeleteUseCase;
+import com.toycode.study.security.application.port.in.UserFindUseCase;
 import com.toycode.study.security.application.port.in.UserRegistrationUseCase;
 import com.toycode.study.security.application.port.out.UserPersistencePort;
 import com.toycode.study.security.common.annotation.UseCase;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class UserService implements
     UserRegistrationUseCase,
+    UserFindUseCase,
     UserDeleteUseCase {
 
     private final UserPersistencePort userPersistencePort;
@@ -30,6 +32,11 @@ public class UserService implements
             request.getAuthority());
 
         userPersistencePort.insertUser(user);
+    }
+
+    @Override
+    public User findUserByUsername(String username) {
+        return userPersistencePort.findByUsername(Username.of(username));
     }
 
     @Override

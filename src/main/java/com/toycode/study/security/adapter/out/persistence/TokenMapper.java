@@ -1,24 +1,25 @@
 package com.toycode.study.security.adapter.out.persistence;
 
-import com.toycode.study.security.domain.Token;
+import com.toycode.study.security.domain.TokenInfo;
+import com.toycode.study.security.domain.TokenInfo.Token;
 import com.toycode.study.security.domain.User.Username;
 import org.springframework.stereotype.Component;
 
 @Component
 class TokenMapper {
 
-    TokenJpaEntity toJpaEntity(Token token) {
+    TokenJpaEntity toJpaEntity(TokenInfo tokenInfo) {
         return TokenJpaEntity.builder()
-            .token(token.getValue())
-            .username(token.getUsername().getValue())
-            .revoked(token.getRevoked())
-            .expired(token.getExpired())
+            .token(tokenInfo.getToken().getValue())
+            .username(tokenInfo.getUsername().getValue())
+            .revoked(tokenInfo.getRevoked())
+            .expired(tokenInfo.getExpired())
             .build();
     }
 
-    Token toDomainEntity(TokenJpaEntity token) {
-        return new Token(
-            token.getToken(),
+    TokenInfo toDomainEntity(TokenJpaEntity token) {
+        return new TokenInfo(
+            Token.of(token.getToken()),
             Username.of(token.getUsername()),
             token.getRevoked(),
             token.getExpired()

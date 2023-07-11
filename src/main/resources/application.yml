@@ -60,7 +60,6 @@ app:
     exclude:
       api-paths:
         - /api/v1/auth/**
-        - /api/v1/demo/get
         - /swagger-ui/**
         - /v*/api-docs/**
         - /swagger-resources/**

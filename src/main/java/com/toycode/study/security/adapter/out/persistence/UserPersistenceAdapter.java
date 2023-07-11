@@ -4,6 +4,7 @@ import com.toycode.study.security.application.port.out.UserPersistencePort;
 import com.toycode.study.security.common.annotation.PersistenceAdapter;
 import com.toycode.study.security.domain.User;
 import com.toycode.study.security.domain.User.Username;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter
@@ -21,13 +22,13 @@ class UserPersistenceAdapter implements
     }
 
     @Override
-    public User findByUsername(Username username) {
+    public User findByUsername(@Valid Username username) {
         UserJpaEntity user = repository.findByUsername(username.getValue()).orElseThrow();
         return mapper.toDomainEntity(user);
     }
 
     @Override
-    public void deleteUser(Username username) {
+    public void deleteUser(@Valid Username username) {
         repository.deleteByUsername(username.getValue());
     }
 }

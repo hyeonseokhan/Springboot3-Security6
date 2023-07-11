@@ -3,7 +3,7 @@ package com.toycode.study.security.adapter.in.web;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import com.toycode.study.security.application.port.dto.LoginRequest;
-import com.toycode.study.security.application.port.dto.TokenInfo;
+import com.toycode.study.security.application.port.dto.LoginResponse;
 import com.toycode.study.security.application.port.in.LoginUseCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -30,7 +30,7 @@ class AuthenticationControllerTest extends AbstractControllerTest {
     void login_user() throws Exception {
         // Given
         LoginRequest request = new LoginRequest("dream", "dream1004");
-        TokenInfo token = TokenInfo.builder().access_token("sample_token").build();
+        LoginResponse token = LoginResponse.builder().access_token("sample_token").build();
         BDDMockito.given(loginUseCase.login(request)).willReturn(token);
 
         // When

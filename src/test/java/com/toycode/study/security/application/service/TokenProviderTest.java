@@ -1,7 +1,7 @@
 package com.toycode.study.security.application.service;
 
 import com.toycode.study.security.domain.Authority;
-import com.toycode.study.security.domain.Token;
+import com.toycode.study.security.domain.TokenBak;
 import com.toycode.study.security.domain.User;
 import com.toycode.study.security.domain.User.Username;
 import org.junit.jupiter.api.Assertions;
@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class TokenProviderTest {
 
     @Autowired
-    private TokenProvider tokenProvider;
+    private TokenService tokenProvider;
 
     @Test
     @DisplayName("토큰 발급 테스트")
@@ -28,7 +28,7 @@ class TokenProviderTest {
             Authority.MANAGER);
 
         // When
-        Token token = tokenProvider.createToken(user);
+        TokenBak token = tokenProvider.createToken(user);
 
         // Then
         Assertions.assertNotNull(token.getValue());

@@ -1,5 +1,6 @@
 package com.toycode.study.security.domain;
 
+import jakarta.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -67,6 +68,7 @@ public class User
     @Value
     public static class Username {
 
+        @NotBlank
         String value;
 
         public static Username of(String value) {
