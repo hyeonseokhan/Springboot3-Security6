@@ -10,7 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
 
 @ExtendWith(MockitoExtension.class)
-class AuthenticationServiceTest {
+class LoginServiceTest {
 
     @InjectMocks
     private LoginService authenticationService;

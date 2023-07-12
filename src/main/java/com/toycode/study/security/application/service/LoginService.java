@@ -12,6 +12,8 @@ import com.toycode.study.security.domain.User.Username;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @UseCase
 @RequiredArgsConstructor
@@ -33,8 +35,10 @@ public class LoginService implements
 
     @Override
     public LoginResponse login(LoginRequest request) {
-        authenticationManager.authenticate(
+        Authentication authenticate = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
 
         User user = userPersistencePort.findByUsername(Username.of(request.getUsername()));
 

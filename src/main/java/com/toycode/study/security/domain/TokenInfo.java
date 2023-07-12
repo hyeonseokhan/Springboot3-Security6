@@ -10,6 +10,8 @@ import lombok.Value;
 @AllArgsConstructor
 public class TokenInfo {
 
+    Long id;
+
     final Token token;
 
     final Username username;

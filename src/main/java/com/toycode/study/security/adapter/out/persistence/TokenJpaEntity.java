@@ -24,7 +24,7 @@ class TokenJpaEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long tokenSequence;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, length = 500, unique = true)
     private String token;
 
     @Column(nullable = false)

@@ -12,6 +12,7 @@ import com.toycode.study.security.domain.TokenInfo.Token;
 import com.toycode.study.security.domain.User;
 import com.toycode.study.security.domain.User.Username;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -19,8 +20,11 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.validation.Valid;
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -63,19 +67,27 @@ public class TokenService implements
     @Override
     @Transactional(rollbackFor = Exception.class)
     public TokenInfo createToken(User user) {
-        // 새로운 jwt 생성
-        String claim = user.getAuthorities().stream()
+        // TODO 구조체 변경
+        Map<String, Object> header = new HashMap<>();
+        header.put(Header.TYPE, "JWT");
+
+        // TODO 구조체 변경
+        Map<String, Object> payload = new HashMap<>();
+        String auth = user.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
+        payload.put("auth", auth);
 
         String jwt = Jwts.builder()
+            .setHeader(header)
+            .setClaims(payload)
+            .setId(UUID.randomUUID().toString())
             .setSubject(user.getUsername())
-            .claim(AUTHORITIES_KEY, claim)
-            .signWith(key, SignatureAlgorithm.HS512)
             .setIssuedAt(new Date(System.currentTimeMillis()))
             .setExpiration(
                 new Date(
                     System.currentTimeMillis() + (this.tokenValidityInMilliseconds * 1000)))
+            .signWith(key, SignatureAlgorithm.HS512)
             .compact();
 
         // 토큰 정보 생성

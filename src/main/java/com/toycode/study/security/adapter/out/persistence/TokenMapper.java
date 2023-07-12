@@ -10,6 +10,7 @@ class TokenMapper {
 
     TokenJpaEntity toJpaEntity(TokenInfo tokenInfo) {
         return TokenJpaEntity.builder()
+            .tokenSequence((tokenInfo.getId() != null) ? tokenInfo.getId() : null)
             .token(tokenInfo.getToken().getValue())
             .username(tokenInfo.getUsername().getValue())
             .revoked(tokenInfo.getRevoked())
@@ -19,6 +20,7 @@ class TokenMapper {
 
     TokenInfo toDomainEntity(TokenJpaEntity token) {
         return new TokenInfo(
+            token.getTokenSequence(),
             Token.of(token.getToken()),
             Username.of(token.getUsername()),
             token.getRevoked(),

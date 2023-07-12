@@ -10,8 +10,10 @@ import com.toycode.study.security.common.annotation.UseCase;
 import com.toycode.study.security.domain.User;
 import com.toycode.study.security.domain.User.Username;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@Slf4j
 @UseCase
 @RequiredArgsConstructor
 public class UserService implements

@@ -11,16 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TokenProviderTest {
+class TokenServiceTest {
 
     @Autowired
-    private TokenService tokenProvider;
+    private TokenService tokenService;
 
     @Test
     @DisplayName("토큰 발급 테스트")
     void generate_token() {
         // Given
-        tokenProvider.afterPropertiesSet();
+        tokenService.afterPropertiesSet();
+
         User user = new User(
             new Username("toycode"),
             "토이코드",
@@ -28,10 +29,10 @@ class TokenProviderTest {
             Authority.MANAGER);
 
         // When
-        TokenInfo token = tokenProvider.createToken(user);
+        TokenInfo token = tokenService.createToken(user);
 
         // Then
         Assertions.assertNotNull(token.getToken().getValue());
-        System.out.printf("==> JWT: %s", token.getToken().getValue());
+        System.out.printf("==> JWT: %s\n", token.getToken().getValue());
     }
 }
