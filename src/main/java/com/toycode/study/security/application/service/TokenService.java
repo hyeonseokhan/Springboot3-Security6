@@ -3,7 +3,6 @@ package com.toycode.study.security.application.service;
 import com.toycode.study.security.application.port.in.TokenDeleteUseCase;
 import com.toycode.study.security.application.port.in.TokenGenerationUseCase;
 import com.toycode.study.security.application.port.in.TokenParseUseCase;
-import com.toycode.study.security.application.port.in.TokenValidUseCase;
 import com.toycode.study.security.application.port.out.TokenPersistencePort;
 import com.toycode.study.security.common.annotation.UseCase;
 import com.toycode.study.security.common.exception.InvalidTokenException;
@@ -12,11 +11,15 @@ import com.toycode.study.security.domain.TokenInfo.Token;
 import com.toycode.study.security.domain.User;
 import com.toycode.study.security.domain.User.Username;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.validation.Valid;
 import java.security.Key;
 import java.util.Date;
@@ -28,21 +31,20 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @UseCase
 @RequiredArgsConstructor
 public class TokenService implements
     TokenGenerationUseCase,
-    TokenValidUseCase,
     TokenParseUseCase,
     TokenDeleteUseCase,
     InitializingBean {
-
-    private static final String AUTHORITIES_KEY = "auth";
 
     /**
      * 'Application Layer -> Infrastructure Layer' 로 접근하기 위한 인터페이스
@@ -122,40 +124,41 @@ public class TokenService implements
     }
 
     @Override
-    public Boolean isValid(Token token, Username username) {
+    public Username getUsernameFromToken(@Valid Token token) {
         if (!tokenPersistencePort.isValid(token)) {
+            log.error("토큰 테이블에 없는 요청입니다.");
             throw new InvalidTokenException("유효한 토큰 목록 중 해당 토큰 값이 존재하지 않습니다.");
         }
-        Username parsedUsername = getUsernameFromToken(token);
-        if (!username.equals(parsedUsername)) {
-            throw new InvalidTokenException("토큰 내 발급자 정보와 입력받은 발급자가 동일하지 않습니다.");
-        }
-        if (isTokenExpired(token)) {
-            throw new InvalidTokenException("해당 토큰이 만료되었습니다.");
-        }
-        return true;
+
+        Claims claims = extractClaimsFromToken(token.getValue());
+        String subject = extractClaim(claims, Claims::getSubject);
+        return Username.of(subject);
     }
 
-    @Override
-    public Username getUsernameFromToken(@Valid Token token) {
-        return Username.of(extractClaim(token.getValue(), Claims::getSubject));
-    }
-
-    private boolean isTokenExpired(@Valid Token token) {
-        return extractClaim(token.getValue(), Claims::getExpiration).before(new Date());
-    }
-
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
+    private <T> T extractClaim(Claims claims, Function<Claims, T> claimsResolver) {
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
-        return
-            Jwts.parserBuilder()
+    private Claims extractClaimsFromToken(String token) {
+        Claims claims = null;
+        try {
+            claims = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token).getBody();
+
+        } catch (UnsupportedJwtException e) {
+            log.error("Token unsupported");
+        } catch (MalformedJwtException e) {
+            log.error("Invalid Token");
+        } catch (SignatureException e) {
+            log.error("Invalid Signature");
+        } catch (ExpiredJwtException e) {
+            log.error("Token expired");
+        } catch (IllegalArgumentException e) {
+            log.error("JWT claims string is empty");
+        }
+        return claims;
     }
 
     @Override
