@@ -20,6 +20,13 @@ public enum Authority {
             .filter(authority -> authority.toString().equals(value.toUpperCase()))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException(
-                String.format("`%s` is invalid value.", value)));
+                String.format("'%s' is invalid value.", value)));
+    }
+
+    public static String[] stringValues() {
+        return Stream.of(Authority.values())
+            .map(Authority::toString)
+            .toList()
+            .toArray(new String[Authority.values().length]);
     }
 }

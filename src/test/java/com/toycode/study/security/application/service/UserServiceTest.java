@@ -20,10 +20,10 @@ class UserServiceTest {
     void register_user() {
         // Given
         UserRegistrationRequest request = new UserRegistrationRequest(
-            "toycode",
-            "토이코드",
-            "toycode1234",
-            Authority.MANAGER);
+            "admin",
+            "최고 관리자",
+            "admin",
+            Authority.ROOT_MANAGER);
 
         // When
         userService.registerUser(request);

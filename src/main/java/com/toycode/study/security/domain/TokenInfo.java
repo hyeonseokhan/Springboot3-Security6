@@ -10,15 +10,15 @@ import lombok.Value;
 @AllArgsConstructor
 public class TokenInfo {
 
-    Long id;
+    private Long id;
 
-    final Token token;
+    private final Token token;
 
-    final Username username;
+    private final Username username;
 
-    Boolean revoked;
+    private Boolean revoked;
 
-    Boolean expired;
+    private Boolean expired;
 
     /**
      * 발급된 토큰으로 토큰정보를 생성한다.
@@ -26,8 +26,8 @@ public class TokenInfo {
      * @param value    발급된 토큰 값
      * @param username 토큰 생성자
      */
-    public TokenInfo(String value, String username) {
-        this.token = Token.of(value);
+    public TokenInfo(String token, String username) {
+        this.token = Token.of(token);
         this.username = Username.of(username);
         this.revoked = false;
         this.expired = false;

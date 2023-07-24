@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @PersistenceAdapter
 @RequiredArgsConstructor
 class UserPersistenceAdapter implements
-    UserPersistencePort {
+    UserPersistencePort{
 
     private final UserRepository repository;
 

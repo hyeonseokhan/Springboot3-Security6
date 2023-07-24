@@ -5,7 +5,8 @@ import com.toycode.study.security.application.port.in.TokenGenerationUseCase;
 import com.toycode.study.security.application.port.in.TokenParseUseCase;
 import com.toycode.study.security.application.port.out.TokenPersistencePort;
 import com.toycode.study.security.common.annotation.UseCase;
-import com.toycode.study.security.common.exception.InvalidTokenException;
+import com.toycode.study.security.common.exception.SecurityError;
+import com.toycode.study.security.common.exception.SecurityException;
 import com.toycode.study.security.domain.TokenInfo;
 import com.toycode.study.security.domain.TokenInfo.Token;
 import com.toycode.study.security.domain.User;
@@ -124,10 +125,9 @@ public class TokenService implements
     }
 
     @Override
-    public Username getUsernameFromToken(@Valid Token token) {
+    public Username getUsernameFromToken(@Valid Token token) throws SecurityException {
         if (!tokenPersistencePort.isValid(token)) {
-            log.error("토큰 테이블에 없는 요청입니다.");
-            throw new InvalidTokenException("유효한 토큰 목록 중 해당 토큰 값이 존재하지 않습니다.");
+            throw new SecurityException(SecurityError.INVALID_TOKEN);
         }
 
         Claims claims = extractClaimsFromToken(token.getValue());

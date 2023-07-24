@@ -17,9 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 class SecurityConfig {
 
-    /**
-     * 'Infrastructure Layer -> Application Layer' 로 접근하기 위한 인터페이스
-     */
     private final UserPersistencePort userPersistencePort;
 
     @Bean
@@ -30,7 +27,8 @@ class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setUserDetailsService(
+            username -> userPersistencePort.findByUsername(Username.of(username)));
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }

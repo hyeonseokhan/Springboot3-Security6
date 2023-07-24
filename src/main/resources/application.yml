@@ -54,15 +54,13 @@ app:
     version: /api/v1
   security:
     enabled: true
-    include:
-      api-paths:
-        - /api/v*/**
     exclude:
       api-paths:
-        - /api/v1/auth/**
+        - /api/v1/user/register
+        - /api/v1/auth/login
+        - /api/v1/auth/logout
         - /swagger-ui/**
         - /v*/api-docs/**
-        - /swagger-resources/**
     jwt:
       header: Authorization
       secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK

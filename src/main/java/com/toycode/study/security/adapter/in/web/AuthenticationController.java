@@ -4,6 +4,7 @@ import com.toycode.study.security.application.port.dto.LoginRequest;
 import com.toycode.study.security.application.port.dto.LoginResponse;
 import com.toycode.study.security.application.port.in.LoginUseCase;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +34,16 @@ class AuthenticationController {
     ResponseEntity<LoginResponse> login(
         @Valid @RequestBody final LoginRequest request) {
         return ResponseEntity.ok(loginUseCase.login(request));
+    }
+
+    /**
+     * 사용자 로그아웃
+     * @param request 서블릿요청문
+     * @return HTTP 응답코드
+     */
+    @PostMapping("/logout")
+    ResponseEntity<Void> logout(HttpServletRequest request) {
+        loginUseCase.logout(request);
+        return ResponseEntity.ok().build();
     }
 }

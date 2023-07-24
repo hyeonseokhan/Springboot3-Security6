@@ -1,6 +1,5 @@
 package com.toycode.study.security.domain;
 
-import jakarta.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -41,7 +40,6 @@ public class User
         return this.username.getValue();
     }
 
-    // TODO 아래의 기능 구현 필요
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -68,11 +66,14 @@ public class User
     @Value
     public static class Username {
 
-        @NotBlank
         String value;
 
         public static Username of(String value) {
             return new Username(value);
+        }
+
+        public boolean isNotNull() {
+            return !this.value.isBlank();
         }
     }
 }
